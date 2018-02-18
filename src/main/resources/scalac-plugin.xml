@@ -1,0 +1,4 @@
+<plugin>
+    <name>applicative-syntax</name>
+    <classname>com.monovore.syntax.SyntaxPlugin</classname>
+</plugin>
