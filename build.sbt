@@ -1,16 +1,14 @@
-import org.typelevel.Dependencies
-
 name := "applicative-syntax"
 organization := "com.monovore"
 
-scalaVersion := "2.12.4"
-crossScalaVersions := Seq("2.11.12", "2.12.4")
+scalaVersion := "2.12.8"
+crossScalaVersions := Seq("2.11.12", "2.12.8", "2.13.0")
 
 libraryDependencies += scalaOrganization.value % "scala-compiler" % scalaVersion.value
 
 libraryDependencies ++= Seq(
-  "org.scalatest"  %%% "scalatest"  % "3.0.0" % "test",
-  "org.typelevel" %% "cats-core" % "1.0.1" % "test"
+  "org.scalatest"  %%% "scalatest"  % "3.0.8" % "test",
+  "org.typelevel" %% "cats-core" % "2.0.0-M4" % "test"
 )
 
 scalacOptions ++= Seq(
@@ -18,11 +16,19 @@ scalacOptions ++= Seq(
   "-Xlint",
   "-feature",
   "-language:higherKinds",
-  "-Ypartial-unification",
 //  "-Xprint:packageobjects",
   "-deprecation",
   "-unchecked"
 )
+
+scalacOptions ++= {
+  CrossVersion.partialVersion(scalaVersion.value) match {
+    case Some((2, v)) if v <= 12 =>
+      Seq("-Ypartial-unification")
+    case _ =>
+      Nil
+  }
+}
 
 List(Compile, Test) flatMap { config =>
   Seq(
